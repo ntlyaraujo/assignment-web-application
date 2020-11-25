@@ -6,7 +6,7 @@ interface AppBarProps {
     title: string
   }
 const TopAppBar = ({title}: AppBarProps) => (
-    <AppBar position="absolute" color="default">
+    <AppBar position="fixed" color="default">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             {title}
