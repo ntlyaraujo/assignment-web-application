@@ -1,27 +1,47 @@
 import React, { FunctionComponent } from "react";
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
-import { Grid, Toolbar, Typography } from "@material-ui/core";
-import './style.css'
+import {
+  createStyles,
+  Grid,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+
 interface ContainerAppProps {
   page: string;
 }
+const useStyles = makeStyles(() =>
+  createStyles({
+    main_container: {
+      height: "80vh",
+      marginTop: "100px",
+    },
+    content: {
+      padding: "24px",
+    },
+  })
+);
 const ContainerApp: FunctionComponent<ContainerAppProps> = ({
   page,
   children,
-}) => (
-  <Paper elevation={3} square className='main_container'>
-    <AppBar position="static" color="inherit">
-      <Toolbar>
-        <Typography variant="h6">{page}</Typography>
-      </Toolbar>
-    </AppBar>
-    <Grid container spacing={3} className='content'>
+}) => {
+  const classes = useStyles();
+  return (
+    <Paper elevation={3} square className={classes.main_container}>
+      <AppBar position="static" color="inherit">
+        <Toolbar>
+          <Typography variant="h6">{page}</Typography>
+        </Toolbar>
+      </AppBar>
+      <Grid container spacing={3} className={classes.content}>
         <Grid item xs={12}>
           {children}
         </Grid>
       </Grid>
-  </Paper>
-);
+    </Paper>
+  );
+};
 
 export default ContainerApp;
