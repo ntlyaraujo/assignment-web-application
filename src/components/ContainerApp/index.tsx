@@ -15,6 +15,7 @@ interface ContainerAppProps {
 const useStyles = makeStyles(() =>
   createStyles({
     main_container: {
+      position: "relative",
       height: "80vh",
       marginTop: "100px",
     },
