@@ -3,6 +3,11 @@ export interface Vehicle {
   name: string;
   id: string;
 }
+export interface Service {
+  serviceName: string;
+  status: string;
+  lastUpdate: string;
+}
 export interface VehicleResponse {
   vehicles: Vehicle[];
   errorCode?: number;
@@ -17,8 +22,7 @@ export interface VehicleInfo {
   chassisNumber?: string;
   cassisSeries?: string;
 }
-export interface VehicleInfoResponse {
-  info: VehicleInfo
-  errorCode?: number;
-  isPending?: boolean;
+export interface VehicleServices {
+  communicationStatus: string;
+  services: Service[]
 }

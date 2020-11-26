@@ -14,3 +14,4 @@ export const getInfoVehicle = (id: string) => {
   return api.get("/vehicle/info", {
     params: { id }}).then((response) => response.data as VehicleInfo);
 };
+
