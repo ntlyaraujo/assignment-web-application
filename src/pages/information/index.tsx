@@ -1,5 +1,5 @@
 import React from "react";
-import { Service, VehicleInfo, VehicleServices } from "../../core/types";
+import {  VehicleInfo, VehicleServices } from "../../core/types";
 import {
   Backdrop,
   CircularProgress,
