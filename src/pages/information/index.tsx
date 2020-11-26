@@ -1,9 +1,10 @@
 import React from "react";
-import { VehicleInfo, VehicleServices } from "../../core/types";
+import { Service, VehicleInfo, VehicleServices } from "../../core/types";
 import {
   Backdrop,
   CircularProgress,
   createStyles,
+  Link,
   List,
   ListItem,
   ListItemProps,
@@ -34,13 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       overflow: "scroll",
     },
-    listSection: {
-      backgroundColor: "inherit",
-    },
-    ul: {
-      backgroundColor: "inherit",
-      padding: 0,
-    },
   })
 );
 const errorMessage = (code: number) => {
@@ -57,6 +51,7 @@ const InformationPage = (props: any) => {
   const { data, isPendingInfo, errorCodeInfo, services } = useVehicleInfo(
     props.history.location.state.vehicle.id
   );
+
   const renderTable = (info: VehicleInfo) => {
     return (
       <TableContainer component={Paper}>
@@ -112,9 +107,17 @@ const InformationPage = (props: any) => {
     const allActives = services.filter((item) => item.status === "ACTIVE");
     return allActives.map((item) => (
       <ListItemLinkService key={item.lastUpdate}>
-        <ListItemText primary={`SERVICE NAME: ${item.serviceName}`}  secondary={`LAST UPDATE: ${item.lastUpdate}`} />
+        <ListItemText
+          primary={`SERVICE NAME: ${item.serviceName}`}
+          secondary={`LAST UPDATE: ${item.lastUpdate}`}
+        />
       </ListItemLinkService>
     ));
+  };
+  const handleClick = () => {
+    return props.history.push({
+      pathname: "/services/:" + props.history.location.state.vehicle.id,
+    });
   };
   return (
     <div>
@@ -141,6 +144,9 @@ const InformationPage = (props: any) => {
           <ListItemText primary="No Information available." />
         )}
       </List>
+      {services && !isPendingInfo && errorCodeInfo === 0 ? (
+        <Link onClick={handleClick}>Click here to see ALL services</Link>
+      ) : null}
       {errorCodeInfo !== 0 ? (
         <Typography variant="h6">
           {errorCodeInfo}: {errorMessage(errorCodeInfo)}

@@ -1,7 +1,6 @@
 import { Container, CssBaseline } from "@material-ui/core";
 import React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   useHistory,
@@ -10,7 +9,7 @@ import ContainerApp from "./components/ContainerApp";
 import TopAppBar from "./components/TopAppBar";
 import HomePage from "./pages/homepage";
 import InformationPage from "./pages/information";
-import ServicePage from "./pages/service";
+import ServicePage from "./pages/services";
 const App = () => {
   let history = useHistory();
 
@@ -25,8 +24,10 @@ const App = () => {
             <InformationPage history={history} />
           </ContainerApp>
         </Route>
-        <Route exact path="/services">
-          <ServicePage />
+        <Route exact path="/services/:id">
+        <ContainerApp page="Services" history={history}>
+            <ServicePage history={history} />
+          </ContainerApp>
         </Route>
         <Route exact path="/">
           <ContainerApp page="Home" history={history}>
