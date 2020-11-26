@@ -1,6 +1,5 @@
 import React from "react";
-import { RouteComponentProps, useRouteMatch } from "react-router-dom";
-import { VehicleResponse } from "../../core/types";
+import { Vehicle, VehicleResponse } from "../../core/types";
 import {
   Backdrop,
   CircularProgress,
@@ -36,14 +35,15 @@ const HomePage = (props:any) => {
   const renderRow = (data: VehicleResponse) => {
     const { vehicles } = data;
     return vehicles.map((item) => (
-      <ListItemLink key={item.id} onClick={() => handleClick(item.id)}>
+      <ListItemLink key={item.id} onClick={() => handleClick(item)}>
         <ListItemText primary={item.name} />
       </ListItemLink>
     ));
   };
-  const handleClick = (id: string) => {
+  const handleClick = (vehicle: Vehicle) => {
     return props.history.push({
-      pathname: "/information/:" + id,
+      pathname: "/information/:" + vehicle.id,
+      state: { vehicle}
     });
   };
   return (
