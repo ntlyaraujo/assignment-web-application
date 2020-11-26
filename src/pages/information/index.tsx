@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+const errorMessage = (code:number) => {
+switch(code){
+  case 404:
+    return 'Page Not Found !'
+  case 401:
+    return 'You are not authorized to access this information,'
+}
+}
 
 const InformationPage = (props: any) => {
   const classes = useStyles();
@@ -83,7 +91,6 @@ const InformationPage = (props: any) => {
       pathname: "/information/:" + id,
     });
   };
-  console.log("data AAAAAAAAAAAAAAA -----", data ? "TEM VALOR" : "NAAAAAO");
   return (
     <div>
       <Typography variant="h6" color="inherit" noWrap>
@@ -93,13 +100,13 @@ const InformationPage = (props: any) => {
       <Backdrop className={classes.backdrop} open={isPendingInfo}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      {data && !isPendingInfo ? (
+      {data && !isPendingInfo && errorCodeInfo === 0 ? (
         renderTable(data)
       ) : (
         <ListItemText primary="No Information available." />
       )}
       {errorCodeInfo !== 0 ? (
-        <Typography variant="h6">{errorCodeInfo}: SERVER ERROR</Typography>
+        <Typography variant="h6">{errorCodeInfo}: {errorMessage(errorCodeInfo)}</Typography>
       ) : null}
     </div>
   );

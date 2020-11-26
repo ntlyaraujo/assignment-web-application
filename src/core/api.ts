@@ -1,5 +1,5 @@
 import axios from "axios";
-import { VehicleResponse,VehicleInfoResponse, VehicleInfo } from "../core/types";
+import { VehicleResponse, VehicleInfo } from "../core/types";
 export const api = axios.create({
   baseURL: "http://localhost:1337",
 });

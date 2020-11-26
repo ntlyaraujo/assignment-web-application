@@ -11,8 +11,7 @@ const useInfoVehicle = (id:string) => {
     setIsPending(true);
     getInfoVehicle(id)
       .then(setInfoVehicle)
-      .then((resp) => {
-        console.log('resp',resp)
+      .then(() => {
         setErrorCode(0);
       })
       .catch((error) => {
