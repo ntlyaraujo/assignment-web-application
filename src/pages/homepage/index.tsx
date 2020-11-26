@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { VehicleResponse } from "../../core/types";
 import {
   Backdrop,
@@ -25,10 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const HomePage = () => {
-  const history = useHistory();
+const HomePage = (props:any) => {
   const classes = useStyles();
-
   const { data, isPending, errorCode } = useVehicle();
   const ListItemLink = (
     props: ListItemProps<"a", { button?: true; onClick: () => void }>
@@ -44,7 +42,7 @@ const HomePage = () => {
     ));
   };
   const handleClick = (id: string) => {
-    return history.push({
+    return props.history.push({
       pathname: "/information/:" + id,
     });
   };
