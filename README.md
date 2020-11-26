@@ -16,5 +16,4 @@ You will also see any lint errors in the console.
 Download and import the JSON file in the mocking tool Mockoon and start the server.
 The server is available at  [http://localhost:1337] 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+
