@@ -57,7 +57,6 @@ const InformationPage = (props: any) => {
   const { data, isPendingInfo, errorCodeInfo, services } = useVehicleInfo(
     props.history.location.state.vehicle.id
   );
-  console.log("SERVICOs:", services);
   const renderTable = (info: VehicleInfo) => {
     return (
       <TableContainer component={Paper}>
