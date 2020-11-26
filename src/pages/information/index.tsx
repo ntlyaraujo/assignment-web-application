@@ -1,9 +1,13 @@
 import React from "react";
-import { VehicleInfo } from "../../core/types";
+import { Service, VehicleInfo, VehicleServices } from "../../core/types";
 import {
   Backdrop,
   CircularProgress,
   createStyles,
+  Link,
+  List,
+  ListItem,
+  ListItemProps,
   ListItemText,
   makeStyles,
   Paper,
@@ -25,20 +29,26 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       color: "#fff",
     },
+    root: {
+      width: "100%",
+      maxHeight: "20vh",
+      backgroundColor: theme.palette.background.paper,
+      overflow: "scroll",
+    },
   })
 );
-const errorMessage = (code:number) => {
-switch(code){
-  case 404:
-    return 'Page Not Found !'
-  case 401:
-    return 'You are not authorized to access this information,'
-}
-}
+const errorMessage = (code: number) => {
+  switch (code) {
+    case 404:
+      return "Page Not Found !";
+    case 401:
+      return "You are not authorized to access this information,";
+  }
+};
 
 const InformationPage = (props: any) => {
   const classes = useStyles();
-  const { data, isPendingInfo, errorCodeInfo } = useVehicleInfo(
+  const { data, isPendingInfo, errorCodeInfo, services } = useVehicleInfo(
     props.history.location.state.vehicle.id
   );
 
@@ -86,9 +96,27 @@ const InformationPage = (props: any) => {
       </TableContainer>
     );
   };
-  const handleClick = (id: string) => {
+
+  const ListItemLinkService = (
+    props: ListItemProps<"a", { button?: true }>
+  ) => {
+    return <ListItem button component="a" {...props} />;
+  };
+  const renderList = (data: VehicleServices) => {
+    const { services } = data;
+    const allActives = services.filter((item) => item.status === "ACTIVE");
+    return allActives.map((item) => (
+      <ListItemLinkService key={item.lastUpdate}>
+        <ListItemText
+          primary={`SERVICE NAME: ${item.serviceName}`}
+          secondary={`LAST UPDATE: ${item.lastUpdate}`}
+        />
+      </ListItemLinkService>
+    ));
+  };
+  const handleClick = () => {
     return props.history.push({
-      pathname: "/information/:" + id,
+      pathname: "/services/:" + props.history.location.state.vehicle.id,
     });
   };
   return (
@@ -105,8 +133,24 @@ const InformationPage = (props: any) => {
       ) : (
         <ListItemText primary="No Information available." />
       )}
+      <Typography variant="h6" color="inherit" noWrap>
+        All ACTIVE Services for the vehicle:{" "}
+        {props.history.location.state.vehicle.name}
+      </Typography>
+      <List className={classes.root}>
+        {services && !isPendingInfo && errorCodeInfo === 0 ? (
+          renderList(services)
+        ) : (
+          <ListItemText primary="No Information available." />
+        )}
+      </List>
+      {services && !isPendingInfo && errorCodeInfo === 0 ? (
+        <Link onClick={handleClick}>Click here to see ALL services</Link>
+      ) : null}
       {errorCodeInfo !== 0 ? (
-        <Typography variant="h6">{errorCodeInfo}: {errorMessage(errorCodeInfo)}</Typography>
+        <Typography variant="h6">
+          {errorCodeInfo}: {errorMessage(errorCodeInfo)}
+        </Typography>
       ) : null}
     </div>
   );

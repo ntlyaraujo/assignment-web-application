@@ -1,5 +1,5 @@
 import axios from "axios";
-import { VehicleResponse, VehicleInfo } from "../core/types";
+import { VehicleResponse, VehicleInfo, VehicleServices } from "../core/types";
 export const api = axios.create({
   baseURL: "http://localhost:1337",
 });
@@ -13,5 +13,11 @@ export const getAllAvailableVehicles = () => {
 export const getInfoVehicle = (id: string) => {
   return api.get("/vehicle/info", {
     params: { id }}).then((response) => response.data as VehicleInfo);
+};
+
+// GET INFO SERVICES VEHICLE
+export const getAllServices = (id: string) => {
+  return api.get("/vehicle/services", {
+    params: { id }}).then((response) => response.data as VehicleServices);
 };
 
