@@ -1,29 +1,36 @@
 import { useEffect, useState } from "react";
-import { getInfoVehicle } from "./api";
-import {  VehicleInfo } from "./types";
+import { getInfoVehicle, getAllServices } from "./api";
+import { VehicleInfo, VehicleServices } from "./types";
 
-const useInfoVehicle = (id:string) => {
+const useInfoVehicle = (id: string) => {
   const [data, setInfoVehicle] = useState<VehicleInfo>();
+  const [services, setInfoVehicleServices] = useState<VehicleServices>();
   const [isPendingInfo, setIsPending] = useState(false);
   const [errorCodeInfo, setErrorCode] = useState(0);
 
   useEffect(() => {
     setIsPending(true);
-    getInfoVehicle(id)
-      .then(setInfoVehicle)
+    /* GET INFO VEHICLE */
+    Promise.all([getInfoVehicle(id), getAllServices(id)])
+    
+      .then((values) => {
+        setInfoVehicle(values[0])
+        setInfoVehicleServices(values[1])
+      })
       .then(() => {
         setErrorCode(0);
       })
       .catch((error) => {
-        setInfoVehicle({})
-       return error.response ? setErrorCode(error.response.status) : null
-      }
-      )
+        setInfoVehicle({});
+        setInfoVehicleServices({communicationStatus: '',
+          services: []})
+        return error.response ? setErrorCode(error.response.status) : null;
+      })
       .finally(() => {
         setIsPending(false);
       });
-  }, []);
+  }, [id]);
 
-  return { data, isPendingInfo, errorCodeInfo };
+  return { data, isPendingInfo, errorCodeInfo, services };
 };
 export default useInfoVehicle;
