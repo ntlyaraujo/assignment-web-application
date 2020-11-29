@@ -18,7 +18,7 @@ interface ContainerAppProps {
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      flexGrow: 1,
+      flex: 1,
     },
     main_container: {
       position: "relative",
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
       marginTop: "100px",
     },
     content: {
-      padding: "24px",
+      padding: 50,
     },
   })
 );
@@ -38,33 +38,32 @@ const ContainerApp: FunctionComponent<ContainerAppProps> = ({
   const classes = useStyles();
   return (
     <div className={classes.root}>
-<Grid container direction="column" justify="center" alignItems="stretch">
-      <Paper elevation={3} square className={classes.main_container}>
-        <AppBar position="static" color="inherit">
-          <Toolbar>
-            {page !== "Home" ? (
-              <IconButton
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                onClick={() => history.goBack()}
-              >
-                <ArrowBack />
-              </IconButton>
-            ) : null}
+      <Grid container direction="column" justify="center" alignItems="stretch">
+        <Paper elevation={3} square className={classes.main_container}>
+          <AppBar position="static" color="inherit">
+            <Toolbar>
+              {page !== "Home" ? (
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={() => history.goBack()}
+                >
+                  <ArrowBack />
+                </IconButton>
+              ) : null}
 
-            <Typography variant="h6">{page}</Typography>
-          </Toolbar>
-        </AppBar>
-        <Grid container spacing={3} className={classes.content}>
-          <Grid item xs={12}>
-            {children}
+              <Typography variant="h6">{page}</Typography>
+            </Toolbar>
+          </AppBar>
+          <Grid container spacing={5} className={classes.content}>
+            <Grid item xs={12}>
+              {children}
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
-    </Grid>
+        </Paper>
+      </Grid>
     </div>
-    
   );
 };
 
