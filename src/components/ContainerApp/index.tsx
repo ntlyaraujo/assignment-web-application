@@ -3,10 +3,12 @@ import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 import { ArrowBack } from "@material-ui/icons";
 import {
+  Container,
   createStyles,
   Grid,
   IconButton,
   makeStyles,
+  Theme,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -15,18 +17,18 @@ interface ContainerAppProps {
   page: string;
   history: any;
 }
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flex: 1,
+    rootContent: {
+      marginTop: theme.spacing(15),
+      width:'100%'
     },
-    main_container: {
+    container: {
       position: "relative",
       height: "80vh",
-      marginTop: "100px",
     },
     content: {
-      padding: 50,
+      padding:theme.spacing(4)
     },
   })
 );
@@ -37,33 +39,31 @@ const ContainerApp: FunctionComponent<ContainerAppProps> = ({
 }) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Grid container direction="column" justify="center" alignItems="stretch">
-        <Paper elevation={3} square className={classes.main_container}>
-          <AppBar position="static" color="inherit">
-            <Toolbar>
-              {page !== "Home" ? (
-                <IconButton
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  onClick={() => history.goBack()}
-                >
-                  <ArrowBack />
-                </IconButton>
-              ) : null}
+    <Container component="main" className={classes.rootContent}>
+      <Paper elevation={3} square className={classes.container}>
+        <AppBar position="static" color="inherit">
+          <Toolbar>
+            {page !== "Home" ? (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={() => history.goBack()}
+              >
+                <ArrowBack />
+              </IconButton>
+            ) : null}
 
-              <Typography variant="h6">{page}</Typography>
-            </Toolbar>
-          </AppBar>
-          <Grid container spacing={5} className={classes.content}>
-            <Grid item xs={12}>
-              {children}
-            </Grid>
+            <Typography variant="h6">{page}</Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid container spacing={5} className={classes.content}>
+          <Grid item xs={12}>
+            {children}
           </Grid>
-        </Paper>
-      </Grid>
-    </div>
+        </Grid>
+      </Paper>
+    </Container>
   );
 };
 

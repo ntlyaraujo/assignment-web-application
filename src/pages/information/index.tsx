@@ -1,26 +1,19 @@
 import React from "react";
-import {  VehicleInfo, VehicleServices } from "../../core/types";
 import {
   Backdrop,
   CircularProgress,
   createStyles,
   Link,
   List,
-  ListItem,
-  ListItemProps,
   ListItemText,
   makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Theme,
   Typography,
 } from "@material-ui/core";
 import useVehicleInfo from "../../core/useVehicleInfo";
+import DataTable from "../../components/DataTable";
+import ServiceList from "../../components/ServiceList";
+import { ColDef } from "@material-ui/data-grid";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,98 +41,57 @@ const errorMessage = (code: number) => {
 
 const InformationPage = (props: any) => {
   const classes = useStyles();
+  const name = props.history.location.state.vehicle.name;
   const { data, isPendingInfo, errorCodeInfo, services } = useVehicleInfo(
     props.history.location.state.vehicle.id
   );
+  const columns: ColDef[] = [
+    { field: "msidn", headerName: "MSIDN", flex: 1 },
+    { field: "engineStatus", headerName: "Engine Status", flex: 1 },
+    { field: "fleet", headerName: "Fleet", flex: 1 },
+    { field: "brand", headerName: "Brand", flex: 3 },
+    {
+      field: "countryOfOperation",
+      headerName: "Country of Operation",
+      flex: 1,
+    },
+    { field: "chassisNumber", headerName: "Chassis Number", flex: 1 },
+    { field: "cassisSeries", headerName: "Chassis Series", flex: 1 },
+  ];
 
-  const renderTable = (info: VehicleInfo) => {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">msidn</TableCell>
-              <TableCell align="center">Engine Status</TableCell>
-              <TableCell align="center">fleet</TableCell>
-              <TableCell align="center">brand</TableCell>
-              <TableCell align="center">countryOfOperation</TableCell>
-              <TableCell align="center">chassisNumber</TableCell>
-              <TableCell align="center">cassisSeries</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow key={info.msidn}>
-              <TableCell component="th" scope="row">
-                {info.msidn}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.engineStatus}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.fleet}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.brand}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.countryOfOperation}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.chassisNumber}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {info.cassisSeries}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
-
-  const ListItemLinkService = (
-    props: ListItemProps<"a", { button?: true }>
-  ) => {
-    return <ListItem button component="a" {...props} />;
-  };
-  const renderList = (data: VehicleServices) => {
-    const { services } = data;
-    const allActives = services.filter((item) => item.status === "ACTIVE");
-    return allActives.map((item) => (
-      <ListItemLinkService key={item.lastUpdate}>
-        <ListItemText
-          primary={`SERVICE NAME: ${item.serviceName}`}
-          secondary={`LAST UPDATE: ${item.lastUpdate}`}
-        />
-      </ListItemLinkService>
-    ));
-  };
   const handleClick = () => {
     return props.history.push({
       pathname: "/services/:" + props.history.location.state.vehicle.id,
+      state: { name },
     });
   };
   return (
     <div>
-      <Typography variant="h6" color="inherit" noWrap>
-        Information about the vehicle:{" "}
-        {props.history.location.state.vehicle.name}
+      <Typography variant="h6" color="inherit">
+        Information about the vehicle:
+        <Typography variant="h6" color="primary" component={"span"}>
+          {" "}
+          {name}
+        </Typography>
       </Typography>
       <Backdrop className={classes.backdrop} open={isPendingInfo}>
         <CircularProgress color="inherit" />
       </Backdrop>
       {data && !isPendingInfo && errorCodeInfo === 0 ? (
-        renderTable(data)
+        <DataTable rows={[data]} columns={columns} />
       ) : (
         <ListItemText primary="No Information available." />
       )}
       <Typography variant="h6" color="inherit" noWrap>
-        All ACTIVE Services for the vehicle:{" "}
-        {props.history.location.state.vehicle.name}
+        All ACTIVE Services for the vehicle:
+        <Typography variant="h6" color="primary" component={"span"}>
+          {" "}
+          {name}
+        </Typography>
       </Typography>
       <List className={classes.root}>
         {services && !isPendingInfo && errorCodeInfo === 0 ? (
-          renderList(services)
+          <ServiceList data={services} status={"ACTIVE"} />
         ) : (
           <ListItemText primary="No Information available." />
         )}

@@ -1,4 +1,4 @@
-import { Container, CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import React from "react";
 import {
   Switch,
@@ -14,10 +14,9 @@ const App = () => {
   let history = useHistory();
 
   return (
-    <Container maxWidth="sm">
+    <React.Fragment>
       <CssBaseline />
       <TopAppBar title="Volvo Group Connected Solutions" />
-
       <Switch>
         <Route exact path="/information/:id">
           <ContainerApp page="Info" history={history}>
@@ -35,7 +34,7 @@ const App = () => {
           </ContainerApp>
         </Route>
       </Switch>
-    </Container>
+    </React.Fragment>
   );
 };
 

@@ -1,14 +1,27 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
+import { ServicesState } from "../../core/types";
+import { useSelector } from "react-redux";
+import ServiceList from "../../components/ServiceList";
 
-const ServicePage = (props: any) => {
+const ServicesPage = (props: any) => {
+  const { name } = props.history.location.state;
+  const data = useSelector(
+    (state: ServicesState) => state.ServicesReducer
+  );
   return (
     <div>
       <Typography variant="h6" color="inherit" noWrap>
-        ALL Vehicles Services
+        All Services for the vehicle:
+        <Typography variant="h6" color="primary" component={"span"}>
+          {" "}
+          {name}
+        </Typography>
       </Typography>
+
+      <ServiceList data={data} status={"ALL"} />
     </div>
   );
 };
 
-export default ServicePage;
+export default ServicesPage;

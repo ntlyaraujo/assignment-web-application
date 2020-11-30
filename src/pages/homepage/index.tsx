@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const HomePage = (props:any) => {
+const HomePage = (props: any) => {
   const classes = useStyles();
   const { data, isPending, errorCode } = useVehicle();
   const ListItemLink = (
@@ -34,7 +34,8 @@ const HomePage = (props:any) => {
   };
   const renderRow = (data: VehicleResponse) => {
     const { vehicles } = data;
-    return vehicles.map((item) => (
+    const allvehiclesName = vehicles.filter((item) => item.name);
+    return allvehiclesName.map((item) => (
       <ListItemLink key={item.id} onClick={() => handleClick(item)}>
         <ListItemText primary={item.name} />
       </ListItemLink>
@@ -43,7 +44,7 @@ const HomePage = (props:any) => {
   const handleClick = (vehicle: Vehicle) => {
     return props.history.push({
       pathname: "/information/:" + vehicle.id,
-      state: { vehicle}
+      state: { vehicle },
     });
   };
   return (

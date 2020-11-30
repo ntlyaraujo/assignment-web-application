@@ -6,8 +6,6 @@ import logo from "../../assets/logo.svg";
 import { Box, createStyles, makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    appBar: {
-    },
     logo: {
       width: 70,
       height: 70,
@@ -22,7 +20,7 @@ interface AppBarProps {
 const TopAppBar = ({ title }: AppBarProps) => {
   const classes = useStyles();
   return (
-    <AppBar className={classes.appBar} position="absolute" color="default">
+    <AppBar position="absolute" color="default">
       <Toolbar>
         <Box component="span" m={1}>
           <img className={classes.logo} src={logo} alt="Volvo Group Logo" />
